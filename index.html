@@ -47,9 +47,10 @@
             display: none;
             z-index: 1;
         }
-        #clock {
+        #user-ip {
             font-size: 1.2em;
             color: #555;
+            margin-top: 20px;
             z-index: 1;
         }
         .copy-btn {
@@ -103,15 +104,32 @@
         <pre id="resultText"></pre>
         <button class="btn btn-secondary copy-btn" onclick="copyResult()">Copy</button>
     </div>
-    <div id="clock" class="mt-4"></div>
+    <div id="user-ip"></div>
     <footer>
-        © 2024 | chill | All rights reserved.
+        © 2024 | Churchill | All rights reserved.
     </footer>
+
+
+    <div class="modal" id="warningModal" tabindex="-1" role="dialog">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Warning</h5>
+                </div>
+                <div class="modal-body">
+                    <p>Do not use your main account.
+                    iyak ka talaga pag na supend</p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-primary" id="modalOkBtn">OK</button>
+                </div>
+            </div>
+        </div>
+    </div>
 
     
     <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js"></script>
 
     <script>
         $(document).ready(function() {
@@ -136,25 +154,30 @@
                 }
             });
 
-            function updateClock() {
-                const now = moment().format('YYYY-MM-DD HH:mm:ss');
-                $('#clock').text(`Current Date and Time: ${now}`);
+            
+            fetch('https://api.ipify.org?format=json')
+                .then(response => response.json())
+                .then(data => {
+                    $('#user-ip').text(`Your IP Address: ${data.ip}`);
+                });
+
+            function copyResult() {
+                const resultText = document.getElementById('resultText');
+                const range = document.createRange();
+                range.selectNode(resultText);
+                window.getSelection().removeAllRanges();
+                window.getSelection().addRange(range);
+                document.execCommand('copy');
+                window.getSelection().removeAllRanges();
+                alert('Copied to clipboard');
             }
 
-            setInterval(updateClock, 1000);
-            updateClock();
+            // Show the warning modal on page load
+            $('#warningModal').modal('show');
+            $('#modalOkBtn').on('click', function() {
+                $('#warningModal').modal('hide');
+            });
         });
-
-        function copyResult() {
-            const resultText = document.getElementById('resultText');
-            const range = document.createRange();
-            range.selectNode(resultText);
-            window.getSelection().removeAllRanges();
-            window.getSelection().addRange(range);
-            document.execCommand('copy');
-            window.getSelection().removeAllRanges();
-            alert('Copied to clipboard');
-        }
     </script>
 </body>
 </html>
