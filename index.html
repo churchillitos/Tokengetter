@@ -16,7 +16,8 @@
             display: flex;
             flex-direction: column;
             align-items: center;
-            overflow-y: auto; /* Enable vertical scrolling */
+            min-height: 100vh; /* Ensure body takes full height */
+            position: relative; /* Needed for absolute positioning */
         }
         .card {
             background: rgba(255, 255, 255, 0.8);
@@ -46,12 +47,6 @@
             display: none;
             z-index: 1;
         }
-        #credits {
-            margin-top: 40px;
-            text-align: center;
-            color: #777;
-            z-index: 1;
-        }
         #clock {
             font-size: 1.2em;
             color: #555;
@@ -62,7 +57,7 @@
             z-index: 1;
         }
         .background {
-            position: absolute;
+            position: fixed; /* Fixed to keep it in place */
             top: 0;
             left: 0;
             width: 100%;
@@ -77,13 +72,14 @@
             100% { background-position: 0% 50%; }
         }
         footer {
-            position: absolute;
-            bottom: 0;
             width: 100%;
             text-align: center;
             padding: 10px 0;
             background: rgba(0, 0, 0, 0.8);
             color: #fff;
+            position: absolute;
+            bottom: 0;
+            z-index: 1; /* Ensure it stays above other elements */
         }
     </style>
 </head>
@@ -109,10 +105,10 @@
     </div>
     <div id="clock" class="mt-4"></div>
     <footer>
-        © 2024 | Churchill | All rights reserved.
+        © 2024 | chill | All rights reserved.
     </footer>
 
-    <!-- jQuery, Bootstrap JS, and Moment.js -->
+    
     <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js"></script>
