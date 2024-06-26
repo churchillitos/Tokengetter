@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Facebook State Getter</title>
+    <title>AppState Getter</title>
     
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     
@@ -16,7 +16,7 @@
             display: flex;
             flex-direction: column;
             align-items: center;
-            overflow: hidden;
+            overflow-y: auto; /* Enable vertical scrolling */
         }
         .card {
             background: rgba(255, 255, 255, 0.8);
@@ -30,7 +30,9 @@
         }
         h1 {
             color: #333;
+            margin-top: 20px;
             z-index: 1;
+            text-align: center; /* Center align the title */
         }
         #result {
             margin-top: 20px;
@@ -74,11 +76,20 @@
             50% { background-position: 100% 50%; }
             100% { background-position: 0% 50%; }
         }
+        footer {
+            position: absolute;
+            bottom: 0;
+            width: 100%;
+            text-align: center;
+            padding: 10px 0;
+            background: rgba(0, 0, 0, 0.8);
+            color: #fff;
+        }
     </style>
 </head>
 <body>
     <div class="background"></div>
-    <h1>Facebook State Getter</h1>
+    <h1>AppState Getter</h1>
     <div class="card">
         <form id="chilliForm">
             <div class="form-group">
@@ -97,7 +108,9 @@
         <button class="btn btn-secondary copy-btn" onclick="copyResult()">Copy</button>
     </div>
     <div id="clock" class="mt-4"></div>
-    <div id="credits">This Facebook state getter was created by Chillis</div>
+    <footer>
+        © 2024 | HeruDev | All rights reserved.
+    </footer>
 
     <!-- jQuery, Bootstrap JS, and Moment.js -->
     <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
