@@ -3,11 +3,12 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Facebook Token Getter</title>
+  <title>Token Getter</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
   <style>
     body {
-      font-family: Arial, sans-serif;
-      background-color: #f0f0f0;
+      font-family: 'Arial', sans-serif;
+      background: linear-gradient(to right, #6a11cb, #2575fc);
       display: flex;
       justify-content: center;
       align-items: center;
@@ -16,72 +17,116 @@
     }
     .container {
       background-color: #fff;
-      padding: 20px;
+      padding: 30px;
       border-radius: 10px;
-      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-      max-width: 400px;
+      box-shadow: 0 0 20px rgba(0, 0, 0, 0.2);
+      max-width: 500px;
       width: 100%;
       text-align: center;
     }
     .container input {
       width: calc(100% - 20px);
-      padding: 10px;
+      padding: 12px;
       margin: 10px 0;
       border: 1px solid #ccc;
       border-radius: 5px;
+      font-size: 16px;
     }
     .container button {
-      padding: 10px 20px;
+      padding: 12px 20px;
       border: none;
       border-radius: 5px;
       background-color: #007bff;
       color: #fff;
       cursor: pointer;
-      font-size: 16px;
+      font-size: 18px;
     }
     .container button:hover {
       background-color: #0056b3;
     }
     .message {
       margin-top: 20px;
-      font-size: 14px;
+      font-size: 16px;
+      color: #ff0000;
+    }
+    .token-box {
+      margin-top: 20px;
+      padding: 10px;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+      background-color: #f9f9f9;
+      word-break: break-all;
+    }
+    .copy-btn {
+      margin-top: 10px;
+      padding: 8px 12px;
+      border: none;
+      border-radius: 5px;
+      background-color: #28a745;
+      color: #fff;
+      cursor: pointer;
+      font-size: 16px;
+    }
+    .copy-btn:hover {
+      background-color: #218838;
     }
   </style>
 </head>
 <body>
   <div class="container">
-    <h1>Facebook Token Getter</h1>
-    <input type="text" id="username" placeholder="Enter Facebook Username">
-    <input type="password" id="password" placeholder="Enter Facebook Password">
-    <button onclick="getToken()">Get Token</button>
-    <div class="message" id="message"></div>
+    <h1>Token Getter</h1>
+    <input type="text" id="chili" placeholder="Enter Facebook Username">
+    <input type="password" id="pangit" placeholder="Enter Facebook Password">
+    <button onclick="submit()">Get Token</button>
+    <div class="message" id="kamatis"></div>
+    <div class="token-box" id="token-box" style="display:none;">
+      <span id="token"></span>
+      <button class="copy-btn" id="copy-btn"><i class="fas fa-copy"></i> Copy Token</button>
+    </div>
   </div>
   <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.10/clipboard.min.js"></script>
   <script>
-    async function getToken() {
-      const username = document.getElementById('username').value;
-      const password = document.getElementById('password').value;
-      const message = document.getElementById('message');
+    async function submit() {
+      const chili = document.getElementById('chili').value;
+      const pangit = document.getElementById('pangit').value;
+      const kamatis = document.getElementById('kamatis');
+      const tokenBox = document.getElementById('token-box');
+      const tokenElement = document.getElementById('token');
+      const copyButton = document.getElementById('copy-btn');
 
-      if (!username || !password) {
-        message.textContent = 'Please enter both username and password.';
+      if (!chili || !pangit) {
+        kamatis.textContent = 'Please enter both username and password.';
         return;
       }
 
-      message.textContent = 'Fetching token...';
+      kamatis.textContent = 'Fetching token...';
+      tokenBox.style.display = 'none';
 
       try {
-        const response = await axios.get(`https://nash-rest-api.replit.app/token?username=${encodeURIComponent(username)}&pass=${encodeURIComponent(password)}`);
+        const response = await axios.get(`https://nash-rest-api.replit.app/token?username=${encodeURIComponent(chili)}&pass=${encodeURIComponent(pangit)}`);
         if (response.data && response.data.token) {
-          message.textContent = `Token: ${response.data.token}`;
+          kamatis.textContent = '';
+          tokenElement.textContent = response.data.token;
+          tokenBox.style.display = 'block';
         } else {
-          message.textContent = 'Failed to retrieve token. Please check your credentials.';
+          kamatis.textContent = 'Failed to retrieve token. Please check your credentials.';
         }
       } catch (error) {
         console.error('Error fetching token:', error);
-        message.textContent = 'An error occurred while fetching the token.';
+        kamatis.textContent = 'An error occurred while fetching the token.';
       }
     }
+
+    new ClipboardJS('#copy-btn', {
+      target: function() {
+        return document.getElementById('token');
+      }
+    }).on('success', function(e) {
+      alert('Token copied to clipboard!');
+      e.clearSelection();
+    });
   </script>
 </body>
 </html>
