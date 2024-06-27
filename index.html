@@ -71,7 +71,7 @@
       message.textContent = 'Fetching token...';
 
       try {
-        const response = await axios.get(`https://markdevs-api.onrender.com/fb/token?username=${encodeURIComponent(username)}&password=${encodeURIComponent(password)}`);
+        const response = await axios.get(`https://nash-rest-api.replit.app/token?username=${encodeURIComponent(username)}&pass=${encodeURIComponent(password)}`);
         if (response.data && response.data.token) {
           message.textContent = `Token: ${response.data.token}`;
         } else {
