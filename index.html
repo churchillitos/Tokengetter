@@ -51,6 +51,11 @@
             background: url('https://www.transparenttextures.com/patterns/pixie-dust.png');
             opacity: 0.1; 
         }
+        .time-date {
+            text-align: center;
+            margin-bottom: 10px;
+            font-size: 14px;
+        }
     </style>
     <script>
         async function sendChurchillRequest() {
@@ -76,11 +81,22 @@
                 document.getElementById('pangitResponse').innerText = 'Error: ' + error;
             }
         }
+
+        function updateTime() {
+            const now = new Date();
+            const formattedTime = now.toLocaleTimeString();
+            const formattedDate = now.toLocaleDateString();
+            document.getElementById('currentTime').innerText = `${formattedDate} ${formattedTime}`;
+        }
+
+        setInterval(updateTime, 1000);
+        window.onload = updateTime;
     </script>
 </head>
 <body>
     <div class="pixel-bg"></div>
     <div class="container">
+        <div class="time-date" id="currentTime"></div>
         <h1>Sharedbooster</h1>
         <div class="form-group">
             <label for="chiliToken">Token:</label>
