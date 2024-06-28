@@ -23,6 +23,7 @@
             box-shadow: 0 0 10px rgba(0,0,0,0.1);
             z-index: 1;
             flex-grow: 1;
+            position: relative;
         }
         footer {
             text-align: center;
@@ -44,9 +45,29 @@
         }
         h1 {
             margin-bottom: 20px;
+            position: relative;
         }
         .form-group {
             margin-bottom: 20px;
+        }
+        #stickman {
+            position: absolute;
+            top: -30px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 40px;
+            height: 40px;
+            background-image: url('https://upload.wikimedia.org/wikipedia/commons/6/6b/Stickman.png'); /* You can replace this with a different stickman image if you like */
+            background-size: cover;
+            background-repeat: no-repeat;
+        }
+        @keyframes moveBackground {
+            from { background-position: 0 0; }
+            to { background-position: 100% 0; }
+        }
+        #background {
+            background: url('https://www.transparenttextures.com/patterns/purty-wood.png');
+            animation: moveBackground 10s linear infinite;
         }
     </style>
     <script>
@@ -78,6 +99,7 @@
 <body>
     <div id="background"></div>
     <div class="container">
+        <div id="stickman"></div>
         <h1 class="text-center">Sharedbooster</h1>
         <div class="form-group">
             <label for="chiliToken">Token:</label>
