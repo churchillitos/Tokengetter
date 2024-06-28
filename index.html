@@ -12,7 +12,6 @@
             min-height: 100vh;
             display: flex;
             flex-direction: column;
-            background-color: #f8f9fa;
             background: url('https://www.transparenttextures.com/patterns/purty-wood.png') repeat, 
                         linear-gradient(135deg, #f06, #ff9);
             animation: moveBackground 10s linear infinite;
@@ -34,16 +33,9 @@
             background-color: #343a40;
             color: white;
             width: 100%;
-            position: relative;
-            bottom: 0;
-        }
-        #background {
             position: fixed;
-            top: 0;
+            bottom: 0;
             left: 0;
-            width: 100%;
-            height: 100%;
-            z-index: 0;
         }
         h1 {
             margin-bottom: 20px;
@@ -51,17 +43,6 @@
         }
         .form-group {
             margin-bottom: 20px;
-        }
-        #stickman {
-            position: absolute;
-            top: -50px;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 40px;
-            height: 40px;
-            background-image: url('https://upload.wikimedia.org/wikipedia/commons/6/6b/Stickman.png'); /* You can replace this with a different stickman image if you like */
-            background-size: cover;
-            background-repeat: no-repeat;
         }
         @keyframes moveBackground {
             from { background-position: 0 0; }
@@ -96,7 +77,6 @@
 </head>
 <body>
     <div class="container">
-        <div id="stickman"></div>
         <h1 class="text-center">Sharedbooster</h1>
         <div class="form-group">
             <label for="chiliToken">Token:</label>
