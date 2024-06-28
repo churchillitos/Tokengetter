@@ -1,150 +1,50 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Token Getter</title>
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
-  <style>
-    body {
-      font-family: 'Arial', sans-serif;
-      background: linear-gradient(to right, #6a11cb, #2575fc);
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      height: 100vh;
-      margin: 0;
-      padding: 20px;
-      box-sizing: border-box;
-    }
-    .container {
-      background-color: #fff;
-      padding: 30px;
-      border-radius: 10px;
-      box-shadow: 0 0 20px rgba(0, 0, 0, 0.2);
-      max-width: 400px;
-      width: 100%;
-      text-align: center;
-    }
-    .container h1 {
-      margin-bottom: 20px;
-    }
-    .container input {
-      width: calc(100% - 20px);
-      padding: 12px;
-      margin: 10px 0;
-      border: 1px solid #ccc;
-      border-radius: 5px;
-      font-size: 16px;
-    }
-    .container button {
-      padding: 12px 20px;
-      border: none;
-      border-radius: 5px;
-      background-color: #007bff;
-      color: #fff;
-      cursor: pointer;
-      font-size: 18px;
-      width: 100%;
-      margin: 10px 0;
-    }
-    .container button:hover {
-      background-color: #0056b3;
-    }
-    .message {
-      margin-top: 20px;
-      font-size: 16px;
-      color: #ff0000;
-    }
-    .token-box {
-      margin-top: 20px;
-      padding: 20px;
-      border: 1px solid #ccc;
-      border-radius: 5px;
-      background-color: #f9f9f9;
-      word-break: break-all;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-    }
-    .token {
-      font-family: 'Courier New', Courier, monospace;
-      margin-bottom: 10px;
-      font-size: 14px;
-    }
-    .copy-btn {
-      padding: 8px 12px;
-      border: none;
-      border-radius: 5px;
-      background-color: #28a745;
-      color: #fff;
-      cursor: pointer;
-      font-size: 16px;
-      display: flex;
-      align-items: center;
-    }
-    .copy-btn:hover {
-      background-color: #218838;
-    }
-    .copy-btn i {
-      margin-right: 5px;
-    }
-  </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sharedbooster</title>
+    <script>
+        async function sendRequest() {
+            const token = document.getElementById('token').value;
+            const amount = document.getElementById('amount').value;
+            const url = document.getElementById('url').value;
+            const interval = 2000; // Set to a fixed value as per the API spec
+            const deleteAfter = 3600; // Set to a fixed value as per the API spec
+
+            if (!token || !amount || !url) {
+                alert('Please fill in all fields.');
+                return;
+            }
+
+            const apiUrl = `https://nash-rest-api.replit.app/share?token=${token}&amount=${amount}&url=${url}&interval=${interval}&deleteAfter=${deleteAfter}`;
+
+            try {
+                const response = await fetch(apiUrl, { method: 'GET' });
+                const result = await response.json();
+                document.getElementById('response').innerText = JSON.stringify(result, null, 2);
+            } catch (error) {
+                console.error('Error:', error);
+                document.getElementById('response').innerText = 'Error: ' + error;
+            }
+        }
+    </script>
 </head>
 <body>
-  <div class="container">
-    <h1>Token Getter</h1>
-    <input type="text" id="chili" placeholder="Enter Facebook Username">
-    <input type="password" id="pangit" placeholder="Enter Facebook Password">
-    <button onclick="submitName()">Submit</button>
-    <div class="message" id="kamatis"></div>
-    <div class="token-box" id="token-box" style="display:none;">
-      <div class="token" id="token"></div>
-      <button class="copy-btn" id="copy-btn"><i class="fas fa-copy"></i> Copy Token</button>
+    <h1>Sharedbooster</h1>
+    <div>
+        <label for="token">Token:</label>
+        <input type="text" id="token" name="token" required>
     </div>
-  </div>
-  <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.10/clipboard.min.js"></script>
-  <script>
-    async function submitName() {
-      const chili = document.getElementById('chili').value;
-      const pangit = document.getElementById('pangit').value;
-      const kamatis = document.getElementById('kamatis');
-      const tokenBox = document.getElementById('token-box');
-      const tokenElement = document.getElementById('token');
-
-      if (!chili || !pangit) {
-        kamatis.textContent = 'Please enter both username and password.';
-        return;
-      }
-
-      kamatis.textContent = 'Fetching token...';
-      tokenBox.style.display = 'none';
-
-      try {
-        const response = await axios.get(`https://nash-rest-api.replit.app/token?username=${encodeURIComponent(chili)}&pass=${encodeURIComponent(pangit)}`);
-        if (response.data && response.data.token) {
-          kamatis.textContent = '';
-          tokenElement.textContent = response.data.token;
-          tokenBox.style.display = 'block';
-        } else {
-          kamatis.textContent = 'Failed to retrieve token. Please check your credentials.';
-        }
-      } catch (error) {
-        console.error('Error fetching token:', error);
-        kamatis.textContent = 'An error occurred while fetching the token.';
-      }
-    }
-
-    new ClipboardJS('#copy-btn', {
-      target: function() {
-        return document.getElementById('token');
-      }
-    }).on('success', function(e) {
-      alert('Token copied to clipboard!');
-      e.clearSelection();
-    });
-  </script>
+    <div>
+        <label for="amount">Amount:</label>
+        <input type="number" id="amount" name="amount" required>
+    </div>
+    <div>
+        <label for="url">URL:</label>
+        <input type="url" id="url" name="url" required>
+    </div>
+    <button onclick="sendRequest()">Send Request</button>
+    <pre id="response"></pre>
 </body>
 </html>
