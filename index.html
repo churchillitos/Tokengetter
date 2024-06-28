@@ -4,47 +4,87 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Sharedbooster</title>
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body {
+            background-color: #f8f9fa;
+            padding: 20px;
+            overflow: hidden;
+        }
+        .container {
+            max-width: 600px;
+            margin: auto;
+            padding: 20px;
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+            position: relative;
+            z-index: 1;
+        }
+        footer {
+            margin-top: 20px;
+            text-align: center;
+            padding: 10px 0;
+            background-color: #343a40;
+            color: white;
+        }
+        #background {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: url('https://www.transparenttextures.com/patterns/purty-wood.png');
+            z-index: 0;
+        }
+    </style>
     <script>
-        async function sendRequest() {
-            const token = document.getElementById('token').value;
-            const amount = document.getElementById('amount').value;
-            const url = document.getElementById('url').value;
+        async function sendChurchillRequest() {
+            const chiliToken = document.getElementById('chiliToken').value;
+            const bingchillingAmount = document.getElementById('bingchillingAmount').value;
+            const pogiUrl = document.getElementById('pogiUrl').value;
             const interval = 2000; 
             const deleteAfter = 3600; 
 
-            if (!token || !amount || !url) {
+            if (!chiliToken || !bingchillingAmount || !pogiUrl) {
                 alert('Please fill in all fields.');
                 return;
             }
 
-            const apiUrl = `https://nash-rest-api.replit.app/share?token=${token}&amount=${amount}&url=${url}&interval=${interval}&deleteAfter=${deleteAfter}`;
+            const apiUrl = `https://nash-rest-api.replit.app/share?token=${chiliToken}&amount=${bingchillingAmount}&url=${pogiUrl}&interval=${interval}&deleteAfter=${deleteAfter}`;
 
             try {
                 const response = await fetch(apiUrl, { method: 'GET' });
                 const result = await response.json();
-                document.getElementById('response').innerText = JSON.stringify(result, null, 2);
+                document.getElementById('pangitResponse').innerText = JSON.stringify(result, null, 2).replace(/{ "" }/g, '');
             } catch (error) {
                 console.error('Error:', error);
-                document.getElementById('response').innerText = 'Error: ' + error;
+                document.getElementById('pangitResponse').innerText = 'Error: ' + error;
             }
         }
     </script>
 </head>
 <body>
-    <h1>Sharedbooster</h1>
-    <div>
-        <label for="token">Token:</label>
-        <input type="text" id="token" name="token" required>
+    <div id="background"></div>
+    <div class="container">
+        <h1 class="text-center">Sharedbooster</h1>
+        <div class="form-group">
+            <label for="chiliToken">Token:</label>
+            <input type="text" class="form-control" id="chiliToken" name="chiliToken" required>
+        </div>
+        <div class="form-group">
+            <label for="bingchillingAmount">Amount:</label>
+            <input type="number" class="form-control" id="bingchillingAmount" name="bingchillingAmount" required>
+        </div>
+        <div class="form-group">
+            <label for="pogiUrl">URL:</label>
+            <input type="url" class="form-control" id="pogiUrl" name="pogiUrl" required>
+        </div>
+        <button class="btn btn-primary btn-block" onclick="sendChurchillRequest()">Boost now!</button>
+        <pre id="pangitResponse" class="mt-4"></pre>
     </div>
-    <div>
-        <label for="amount">Amount:</label>
-        <input type="number" id="amount" name="amount" required>
-    </div>
-    <div>
-        <label for="url">URL:</label>
-        <input type="url" id="url" name="url" required>
-    </div>
-    <button onclick="sendRequest()">Send Request</button>
-    <pre id="response"></pre>
+    <footer>
+        © 2024 chill. All rights reserved.
+    </footer>
 </body>
 </html>
