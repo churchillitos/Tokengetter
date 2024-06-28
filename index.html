@@ -24,6 +24,7 @@
             z-index: 1;
             position: relative;
             flex-grow: 1;
+            animation: pixelMove 10s infinite;
         }
         footer {
             text-align: center;
@@ -31,9 +32,6 @@
             background-color: #343a40;
             color: white;
             width: 100%;
-            position: fixed;
-            bottom: 0;
-            left: 0;
         }
         h1 {
             margin-bottom: 20px;
@@ -42,6 +40,13 @@
         }
         .form-group {
             margin-bottom: 20px;
+        }
+        @keyframes pixelMove {
+            0% { transform: translateX(0) translateY(0); }
+            25% { transform: translateX(5px) translateY(-5px); }
+            50% { transform: translateX(0) translateY(5px); }
+            75% { transform: translateX(-5px) translateY(-5px); }
+            100% { transform: translateX(0) translateY(0); }
         }
     </style>
     <script>
