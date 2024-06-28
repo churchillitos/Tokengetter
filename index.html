@@ -18,13 +18,14 @@
             max-width: 600px;
             margin: 40px auto;
             padding: 40px 20px;
-            background-color: rgba(255, 255, 255, 0.95); /* Slightly transparent */
+            background-color: #8A2BE2; /* Violet */
             border-radius: 8px;
             box-shadow: 0 0 10px rgba(0,0,0,0.1);
             z-index: 1;
             position: relative;
             flex-grow: 1;
             animation: pixelMove 10s infinite;
+            color: white; 
         }
         footer {
             text-align: center;
@@ -36,7 +37,7 @@
         h1 {
             margin-bottom: 20px;
             text-align: center;
-            color: #343a40;
+            color: white; 
         }
         .form-group {
             margin-bottom: 20px;
@@ -47,6 +48,16 @@
             50% { transform: translateX(0) translateY(5px); }
             75% { transform: translateX(-5px) translateY(-5px); }
             100% { transform: translateX(0) translateY(0); }
+        }
+        .pixel-bg {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+            z-index: -1;
+            background: url('https://www.transparenttextures.com/patterns/pixie-dust.png');
+            opacity: 0.2;
         }
     </style>
     <script>
@@ -76,6 +87,7 @@
     </script>
 </head>
 <body>
+    <div class="pixel-bg"></div>
     <div class="container">
         <h1>Sharedbooster</h1>
         <div class="form-group">
